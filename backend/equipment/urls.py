@@ -3,21 +3,17 @@
 # Description: URL configuration for equipment app
 # ============================================================================
 
-from django.urls import path
+from django.urls import path, include
+from rest_framework.routers import DefaultRouter
 from . import views
 
 app_name = 'equipment'
 
+router = DefaultRouter()
+router.register(r'equipment', views.EquipmentViewSet, basename='equipment')
+router.register(r'calibrations', views.CalibrationViewSet, basename='calibration')
+router.register(r'maintenance', views.MaintenanceViewSet, basename='maintenance')
+
 urlpatterns = [
-    # Equipment endpoints
-    path('equipment/', views.EquipmentListView.as_view(), name='equipment-list'),
-    path('equipment/<int:pk>/', views.EquipmentDetailView.as_view(), name='equipment-detail'),
-    
-    # Calibration endpoints
-    path('calibrations/', views.CalibrationListView.as_view(), name='calibration-list'),
-    path('calibrations/<int:pk>/', views.CalibrationDetailView.as_view(), name='calibration-detail'),
-    
-    # Maintenance endpoints
-    path('maintenance/', views.MaintenanceListView.as_view(), name='maintenance-list'),
-    path('maintenance/<int:pk>/', views.MaintenanceDetailView.as_view(), name='maintenance-detail'),
+    path('', include(router.urls)),
 ] 
