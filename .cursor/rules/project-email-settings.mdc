@@ -1,0 +1,16 @@
+---
+description: Email settings
+globs: 
+alwaysApply: false
+---
+
+# Use These Email Settings for Email Related Features
+# Do not include this sensitive information on public platforms like GitHub
+# Always store this information in a .env file which is not pushed upto GitHub 
+
+- email: dev@precept.co.za
+- password: Heb:0832889052
+- incoming server: mail.precept.co.za 
+- Outgoing (smtp) server: smtp.precept.co.za
+- smtp authentication: On (same username as incoming)
+- smtp port: 587

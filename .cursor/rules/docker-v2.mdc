@@ -1,0 +1,91 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+
+# Docker dcoker compose rules:
+
+- dont use depricrated Docker and docker compose versions - make sure to use Docker v2 or higher
+- always make sure that make migrations / run migrations are run within the docker containers
+- always make sure volumes are setup for data persistance, including databases, app settings, app configurations - for everything
+
+Below is a comprehensive set of Docker rules for your Cursor IDE project that integrates the recommendations provided:
+
+---
+
+# Comprehensive Docker Guidelines for Calibrify
+
+## 1. Docker & Docker Compose Version Requirements
+
+1. **Modern Versions Only:**  
+   - **Requirement:** Use Docker Engine and Docker Compose V2 or later.  
+   - **Action:** Explicitly specify version requirements in your project documentation and configuration files (e.g., comments in your Dockerfile or docker-compose.yml).
+
+## 2. Running Migrations Within Containers
+
+1. **Containerized Migrations:**  
+   - **Rule:** Always execute database migrations from within the Docker containers.
+
+2. **Automation & Integration:**  
+   - **Recommendation:**  
+     - Integrate migration commands into the container’s startup process using an entrypoint script.
+     - Alternatively, include a specific command in your deployment pipeline, for example:  
+       ```bash
+       docker-compose run web python manage.py migrate
+       ```
+   - **Error Handling:**  
+     - Ensure migration processes log appropriate outputs.
+     - Configure the container to exit with an error code on migration failure for easier debugging.
+
+## 3. Data Persistence Using Docker Volumes
+
+1. **Persistent Data Strategy:**  
+   - **Rule:** Always set up Docker volumes for all critical data—including databases, application settings, and configurations—to ensure data persistence across container restarts or updates.
+  
+2. **Implementation Examples:**  
+   - **Database Volumes:**  
+     Use named volumes to persist database data. For example, in your `docker-compose.yml`:
+     ```yaml
+     services:
+       db:
+         image: postgres:latest
+         volumes:
+           - db-data:/var/lib/postgresql/data
+     volumes:
+       db-data:
+     ```
+   - **Configuration Files & App Data:**  
+     - Use bind mounts for configuration files if they require frequent updates during development.
+     - Establish dedicated volumes for logs, uploads, or other mutable data.
+
+3. **Backup & Recovery:**  
+   - **Recommendation:**  
+     - Develop and document a backup strategy for your Docker volumes to ensure data recovery in case of container failure or other issues.
+
+## 4. Additional Best Practices
+
+1. **Environment Variables & Secrets Management:**  
+   - **Guideline:** Securely manage sensitive data (e.g., database credentials, API keys) via Docker secrets or environment variables.
+  
+2. **Health Checks:**  
+   - **Purpose:** Use health checks to verify that services (including the migration process) are running correctly.
+   - **Example in `docker-compose.yml`:**
+     ```yaml
+     services:
+       web:
+         build: .
+         healthcheck:
+           test: ["CMD-SHELL", "curl -f http://localhost/ || exit 1"]
+           interval: 30s
+           timeout: 10s
+           retries: 5
+     ```
+
+3. **Documentation & Consistency:**  
+   - **Action:**  
+     - Clearly document all Docker-related rules in your project README or a dedicated developer guide.
+     - Maintain a checklist to ensure that these guidelines are followed during development and deployment phases.
+
+---
+ 
