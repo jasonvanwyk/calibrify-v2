@@ -1,0 +1,159 @@
+{% extends 'base.html' %}
+{% load static %}
+
+<!-- ============================================================================
+* File Path: frontend/templates/dashboard.html
+* Description: Dashboard template for Calibrify application
+============================================================================= -->
+
+{% block title %}Dashboard - Calibrify{% endblock %}
+
+{% block page_title %}Dashboard{% endblock %}
+
+{% block content %}
+<div class="dashboard-grid">
+    <!-- Summary Cards -->
+    <div class="summary-section">
+        <div class="card-grid">
+            <div class="summary-tile">
+                <div class="summary-icon">
+                    <i class="ri-tools-line"></i>
+                </div>
+                <div class="summary-content">
+                    <h3>Total Equipment</h3>
+                    <p class="summary-number">{{ total_equipment }}</p>
+                </div>
+            </div>
+
+            <div class="summary-tile warning">
+                <div class="summary-icon">
+                    <i class="ri-alarm-warning-line"></i>
+                </div>
+                <div class="summary-content">
+                    <h3>Due for Calibration</h3>
+                    <p class="summary-number">{{ due_calibrations }}</p>
+                </div>
+            </div>
+
+            <div class="summary-tile danger">
+                <div class="summary-icon">
+                    <i class="ri-error-warning-line"></i>
+                </div>
+                <div class="summary-content">
+                    <h3>Overdue Maintenance</h3>
+                    <p class="summary-number">{{ overdue_maintenance }}</p>
+                </div>
+            </div>
+
+            <div class="summary-tile success">
+                <div class="summary-icon">
+                    <i class="ri-check-double-line"></i>
+                </div>
+                <div class="summary-content">
+                    <h3>Completed This Month</h3>
+                    <p class="summary-number">{{ completed_this_month }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Upcoming Schedule -->
+    <div class="card upcoming-schedule">
+        <div class="card-header">
+            <h2>Upcoming Schedule</h2>
+            <a href="{% url 'frontend:calendar' %}" class="btn btn-secondary btn-sm">View Calendar</a>
+        </div>
+        <div class="schedule-list">
+            {% if upcoming_events %}
+                {% for event in upcoming_events %}
+                    <div class="schedule-item">
+                        <div class="schedule-date">
+                            <span class="date">{{ event.date|date:"d" }}</span>
+                            <span class="month">{{ event.date|date:"M" }}</span>
+                        </div>
+                        <div class="schedule-details">
+                            <h4>{{ event.title }}</h4>
+                            <p>{{ event.equipment.name }} - {{ event.type }}</p>
+                        </div>
+                        <div class="schedule-status {{ event.status|lower }}">
+                            {{ event.status }}
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <div class="empty-state">
+                    <i class="ri-calendar-line"></i>
+                    <p>No upcoming events scheduled</p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Recent Activity -->
+    <div class="card recent-activity">
+        <div class="card-header">
+            <h2>Recent Activity</h2>
+        </div>
+        <div class="activity-list">
+            {% if recent_activities %}
+                {% for activity in recent_activities %}
+                    <div class="activity-item">
+                        <div class="activity-icon">
+                            <i class="{{ activity.icon }}"></i>
+                        </div>
+                        <div class="activity-details">
+                            <p>{{ activity.description }}</p>
+                            <span class="activity-time">{{ activity.timestamp|timesince }} ago</span>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <div class="empty-state">
+                    <i class="ri-history-line"></i>
+                    <p>No recent activities</p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="card quick-actions">
+        <div class="card-header">
+            <h2>Quick Actions</h2>
+        </div>
+        <div class="actions-grid">
+            <a href="{% url 'frontend:equipment_create' %}" class="action-item">
+                <i class="ri-add-line"></i>
+                <span>Add Equipment</span>
+            </a>
+            <a href="{% url 'frontend:calibration_create' %}" class="action-item">
+                <i class="ri-calendar-check-line"></i>
+                <span>Schedule Calibration</span>
+            </a>
+            <a href="{% url 'frontend:maintenance_create' %}" class="action-item">
+                <i class="ri-tools-fill"></i>
+                <span>Log Maintenance</span>
+            </a>
+            <a href="{% url 'frontend:reports' %}" class="action-item">
+                <i class="ri-file-chart-line"></i>
+                <span>Generate Report</span>
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Dashboard-specific JavaScript can be added here
+    document.addEventListener('DOMContentLoaded', function() {
+        // Initialize any dashboard-specific features
+        initializeDashboard();
+    });
+
+    function initializeDashboard() {
+        // Add any dashboard-specific initialization code here
+        console.log('Dashboard initialized');
+    }
+</script>
+{% endblock %} 

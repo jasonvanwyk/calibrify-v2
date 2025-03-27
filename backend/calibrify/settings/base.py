@@ -23,6 +23,7 @@ INSTALLED_APPS = [
     'django_filters',
     # Local apps
     'equipment',
+    'frontend',  # Frontend app
 ]
 
 MIDDLEWARE = [
@@ -42,7 +43,9 @@ ROOT_URLCONF = 'calibrify.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            os.path.join(BASE_DIR, 'frontend/templates'),
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -118,4 +121,9 @@ CORS_ALLOWED_ORIGINS = [
 # Security settings
 SECURE_BROWSER_XSS_FILTER = True
 SECURE_CONTENT_TYPE_NOSNIFF = True
-X_FRAME_OPTIONS = 'DENY' 
+X_FRAME_OPTIONS = 'DENY'
+
+# Authentication settings
+LOGIN_URL = '/admin/login/'
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/' 

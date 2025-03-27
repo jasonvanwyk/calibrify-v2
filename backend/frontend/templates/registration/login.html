@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Login - Calibrify{% endblock %}
+
+{% block content %}
+<div class="login-container">
+    <div class="login-box">
+        <div class="login-header">
+            <img src="{% static 'images/logo.png' %}" alt="Calibrify Logo" class="login-logo">
+            <h1>Welcome to Calibrify</h1>
+            <p>Equipment Calibration & Maintenance Tracker</p>
+        </div>
+
+        <form method="post" action="{% url 'login' %}" class="login-form">
+            {% csrf_token %}
+            
+            {% if form.errors %}
+            <div class="alert alert-danger">
+                Your username and password didn't match. Please try again.
+            </div>
+            {% endif %}
+
+            {% if next %}
+                <input type="hidden" name="next" value="{{ next }}">
+            {% endif %}
+
+            <div class="form-group">
+                <label for="id_username">Username:</label>
+                <input type="text" name="username" id="id_username" class="form-input" required>
+            </div>
+
+            <div class="form-group">
+                <label for="id_password">Password:</label>
+                <input type="password" name="password" id="id_password" class="form-input" required>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-block">Log In</button>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    .login-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+        padding: var(--spacing-lg);
+        background-color: var(--background-color);
+    }
+
+    .login-box {
+        width: 100%;
+        max-width: 400px;
+        padding: var(--spacing-xl);
+        background-color: var(--surface-color);
+        border-radius: var(--radius-lg);
+        box-shadow: var(--shadow-lg);
+    }
+
+    .login-header {
+        text-align: center;
+        margin-bottom: var(--spacing-xl);
+    }
+
+    .login-logo {
+        width: 120px;
+        height: auto;
+        margin-bottom: var(--spacing-md);
+    }
+
+    .login-header h1 {
+        font-size: 1.5rem;
+        margin-bottom: var(--spacing-xs);
+    }
+
+    .login-header p {
+        color: var(--text-secondary);
+    }
+
+    .login-form .form-group {
+        margin-bottom: var(--spacing-lg);
+    }
+
+    .btn-block {
+        width: 100%;
+    }
+
+    /* Override base template styles for login page */
+    .navbar,
+    .sidebar {
+        display: none;
+    }
+
+    .main-content {
+        margin-left: 0;
+        padding: 0;
+    }
+
+    .content {
+        padding: 0;
+    }
+</style>
+{% endblock %} 

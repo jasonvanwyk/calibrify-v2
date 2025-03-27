@@ -1,0 +1,115 @@
+{% extends 'base.html' %}
+{% load static %}
+
+<!-- ============================================================================
+* File Path: frontend/templates/equipment/list.html
+* Description: Equipment list template
+============================================================================= -->
+
+{% block title %}Equipment - Calibrify{% endblock %}
+
+{% block page_title %}Equipment{% endblock %}
+
+{% block content %}
+<div class="equipment-list">
+    <!-- Actions Header -->
+    <div class="actions-header">
+        <div class="search-box">
+            <input type="text" placeholder="Search equipment..." class="search-input">
+            <button class="search-btn">
+                <i class="ri-search-line"></i>
+            </button>
+        </div>
+        <div class="action-buttons">
+            <a href="{% url 'frontend:equipment_create' %}" class="btn btn-primary">
+                <i class="ri-add-line"></i>
+                Add Equipment
+            </a>
+        </div>
+    </div>
+
+    <!-- Equipment Table -->
+    <div class="table-container">
+        {% if equipment %}
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Serial Number</th>
+                        <th>Category</th>
+                        <th>Location</th>
+                        <th>Last Calibrated</th>
+                        <th>Next Due</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in equipment %}
+                        <tr>
+                            <td>{{ item.name }}</td>
+                            <td>{{ item.serial_number }}</td>
+                            <td>{{ item.category }}</td>
+                            <td>{{ item.location }}</td>
+                            <td>
+                                {% if item.last_calibration %}
+                                    {{ item.last_calibration.calibration_date|date:"M d, Y" }}
+                                {% else %}
+                                    Never
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if item.next_calibration_due %}
+                                    {{ item.next_calibration_due|date:"M d, Y" }}
+                                {% else %}
+                                    Not Set
+                                {% endif %}
+                            </td>
+                            <td>
+                                <span class="status-badge {{ item.status|lower }}">
+                                    {{ item.status }}
+                                </span>
+                            </td>
+                            <td class="actions">
+                                <a href="{% url 'frontend:equipment_detail' item.id %}" class="btn btn-icon" title="View Details">
+                                    <i class="ri-eye-line"></i>
+                                </a>
+                                <a href="{% url 'frontend:equipment_edit' item.id %}" class="btn btn-icon" title="Edit">
+                                    <i class="ri-edit-line"></i>
+                                </a>
+                                <button class="btn btn-icon delete-btn" title="Delete" data-id="{{ item.id }}">
+                                    <i class="ri-delete-bin-line"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <div class="empty-state">
+                <i class="ri-tools-line"></i>
+                <h3>No Equipment Found</h3>
+                <p>Get started by adding your first piece of equipment.</p>
+                <a href="{% url 'frontend:equipment_create' %}" class="btn btn-primary">
+                    <i class="ri-add-line"></i>
+                    Add Equipment
+                </a>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Initialize equipment list functionality
+        initializeEquipmentList();
+    });
+
+    function initializeEquipmentList() {
+        // Add equipment list specific initialization here
+        console.log('Equipment list initialized');
+    }
+</script>
+{% endblock %} 

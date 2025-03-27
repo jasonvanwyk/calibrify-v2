@@ -1,0 +1,136 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- ============================================================================
+    * File Path: frontend/templates/base.html
+    * Description: Base template for Calibrify application
+    ============================================================================= -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Calibrify - Equipment Calibration & Maintenance Tracker{% endblock %}</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="{% static 'images/favicon.png' %}">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    
+    <!-- Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <!-- Sidebar Navigation -->
+    <nav class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <img src="{% static 'images/logo.png' %}" alt="Calibrify Logo" class="logo">
+        </div>
+        <ul class="sidebar-menu">
+            <li class="menu-item {% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}">
+                <a href="{% url 'frontend:dashboard' %}">
+                    <i class="ri-dashboard-line"></i>
+                    <span>Dashboard</span>
+                </a>
+            </li>
+            <li class="menu-item {% if request.resolver_match.url_name == 'equipment_list' %}active{% endif %}">
+                <a href="{% url 'frontend:equipment_list' %}">
+                    <i class="ri-tools-line"></i>
+                    <span>Equipment</span>
+                </a>
+            </li>
+            <li class="menu-item {% if request.resolver_match.url_name == 'calibration_list' %}active{% endif %}">
+                <a href="{% url 'frontend:calibration_list' %}">
+                    <i class="ri-calendar-check-line"></i>
+                    <span>Calibrations</span>
+                </a>
+            </li>
+            <li class="menu-item {% if request.resolver_match.url_name == 'maintenance_list' %}active{% endif %}">
+                <a href="{% url 'frontend:maintenance_list' %}">
+                    <i class="ri-service-line"></i>
+                    <span>Maintenance</span>
+                </a>
+            </li>
+            <li class="menu-item {% if request.resolver_match.url_name == 'reports' %}active{% endif %}">
+                <a href="{% url 'frontend:reports' %}">
+                    <i class="ri-file-chart-line"></i>
+                    <span>Reports</span>
+                </a>
+            </li>
+        </ul>
+        <div class="sidebar-footer">
+            <div class="user-info">
+                {% if request.user.is_authenticated %}
+                    <span class="user-name">{{ request.user.get_full_name }}</span>
+                    <a href="{% url 'frontend:logout' %}" class="logout-link">
+                        <i class="ri-logout-box-line"></i>
+                        <span>Logout</span>
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Top Navigation Bar -->
+        <header class="navbar">
+            <div class="navbar-left">
+                <button id="sidebar-toggle" class="sidebar-toggle">
+                    <i class="ri-menu-line"></i>
+                </button>
+                <h1 class="page-title">{% block page_title %}{% endblock %}</h1>
+            </div>
+            <div class="navbar-right">
+                <div class="notifications">
+                    <button class="notification-btn" id="notificationDropdown">
+                        <i class="ri-notification-3-line"></i>
+                        <span class="notification-badge">0</span>
+                    </button>
+                </div>
+                <div class="user-menu">
+                    {% if request.user.is_authenticated %}
+                        <button class="user-menu-btn" id="userMenuDropdown">
+                            <img src="{% static 'images/default-avatar.png' %}" alt="User Avatar" class="user-avatar">
+                            <span class="user-name">{{ request.user.get_full_name }}</span>
+                        </button>
+                    {% endif %}
+                </div>
+            </div>
+        </header>
+
+        <!-- Page Content -->
+        <main class="content">
+            {% if messages %}
+                <div class="messages">
+                    {% for message in messages %}
+                        <div class="alert alert-{{ message.tags }}">
+                            {{ message }}
+                            <button type="button" class="alert-close">&times;</button>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            {% block content %}{% endblock %}
+        </main>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="{% static 'js/main.js' %}"></script>
+    {% block extra_js %}{% endblock %}
+
+    <!-- Error Reporting -->
+    {% if debug %}
+        <script>
+            console.log('Debug mode is enabled');
+        </script>
+    {% endif %}
+</body>
+</html> 
