@@ -24,3 +24,7 @@ urlpatterns = [
     path('', include('frontend.urls')),  # Frontend URLs (dashboard, etc.)
     path('api/', include('equipment.urls')),  # Equipment API endpoints
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+# Serve static files in development
+if settings.DEBUG:
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

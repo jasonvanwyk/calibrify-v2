@@ -1,0 +1,55 @@
+version: '3.8'
+
+services:
+  web:
+    build:
+      context: ../../backend
+      dockerfile: Dockerfile.dev
+    command: >
+      bash -c "python manage.py migrate &&
+               python manage.py collectstatic --no-input &&
+               python manage.py runserver 0.0.0.0:8000"
+    volumes:
+      - ../../backend:/app
+      - static_volume:/app/staticfiles
+      - media_volume:/app/media
+      - app_settings_volume:/app/settings
+      - logs_volume:/app/logs
+    ports:
+      - "8000:8000"
+    environment:
+      - DJANGO_SETTINGS_MODULE=calibrify.settings.development
+      - DATABASE_URL=postgres://postgres:postgres@db:5432/calibrify
+      - DEBUG=1
+    depends_on:
+      - db
+
+  db:
+    image: postgres:15
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=calibrify
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - "5432:5432"
+
+  nginx:
+    build:
+      context: ../../frontend
+      dockerfile: Dockerfile.dev
+    volumes:
+      - static_volume:/usr/share/nginx/html/static
+      - media_volume:/usr/share/nginx/html/media
+    ports:
+      - "80:80"
+    depends_on:
+      - web
+
+volumes:
+  postgres_data:
+  static_volume:
+  media_volume:
+  app_settings_volume:
+  logs_volume: 
