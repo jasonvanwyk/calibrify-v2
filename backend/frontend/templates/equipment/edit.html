@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% load static %}
+
+<!-- ============================================================================
+* File Path: frontend/templates/equipment/edit.html
+* Description: Equipment edit form template
+============================================================================= -->
+
+{% block title %}Edit {{ equipment.name }} - Calibrify{% endblock %}
+
+{% block page_title %}Edit Equipment{% endblock %}
+
+{% block content %}
+<div class="form-container">
+    <div class="form-header">
+        <h2>Edit {{ equipment.name }}</h2>
+        <div class="action-buttons">
+            <a href="{% url 'frontend:equipment_detail' equipment.id %}" class="btn btn-secondary">
+                <i class="ri-arrow-left-line"></i>
+                Back to Details
+            </a>
+        </div>
+    </div>
+
+    <div class="placeholder-content">
+        <h3>Coming Soon</h3>
+        <p>Equipment edit form will be implemented here.</p>
+    </div>
+</div>
+{% endblock %} 

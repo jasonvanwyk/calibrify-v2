@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% load static %}
+
+<!-- ============================================================================
+* File Path: frontend/templates/calibration/create.html
+* Description: Calibration creation form template
+============================================================================= -->
+
+{% block title %}Schedule Calibration - Calibrify{% endblock %}
+
+{% block page_title %}Schedule New Calibration{% endblock %}
+
+{% block content %}
+<div class="form-container">
+    <div class="form-header">
+        <h2>Schedule New Calibration</h2>
+        <div class="action-buttons">
+            <a href="{% url 'frontend:calibration_list' %}" class="btn btn-secondary">
+                <i class="ri-arrow-left-line"></i>
+                Back to List
+            </a>
+        </div>
+    </div>
+
+    <div class="placeholder-content">
+        <h3>Coming Soon</h3>
+        <p>Calibration scheduling form will be implemented here.</p>
+        <ul class="feature-list">
+            <li>Select equipment to calibrate</li>
+            <li>Set calibration date and time</li>
+            <li>Assign calibration technician</li>
+            <li>Specify calibration standards</li>
+            <li>Add measurement points and acceptance criteria</li>
+        </ul>
+    </div>
+</div>
+{% endblock %} 

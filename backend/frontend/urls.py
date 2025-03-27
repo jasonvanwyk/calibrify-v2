@@ -16,6 +16,8 @@ urlpatterns = [
     # Equipment URLs
     path('equipment/', views.equipment_list, name='equipment_list'),
     path('equipment/create/', views.equipment_create, name='equipment_create'),
+    path('equipment/<int:pk>/', views.equipment_detail, name='equipment_detail'),
+    path('equipment/<int:pk>/edit/', views.equipment_edit, name='equipment_edit'),
     
     # Calibration URLs
     path('calibration/', views.calibration_list, name='calibration_list'),

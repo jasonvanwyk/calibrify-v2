@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% load static %}
+
+<!-- ============================================================================
+* File Path: frontend/templates/equipment/detail.html
+* Description: Equipment detail template
+============================================================================= -->
+
+{% block title %}{{ equipment.name }} - Calibrify{% endblock %}
+
+{% block page_title %}Equipment Details{% endblock %}
+
+{% block content %}
+<div class="detail-container">
+    <div class="detail-header">
+        <h2>{{ equipment.name }}</h2>
+        <div class="action-buttons">
+            <a href="{% url 'frontend:equipment_edit' equipment.id %}" class="btn btn-primary">
+                <i class="ri-edit-line"></i>
+                Edit Equipment
+            </a>
+            <a href="{% url 'frontend:equipment_list' %}" class="btn btn-secondary">
+                <i class="ri-arrow-left-line"></i>
+                Back to List
+            </a>
+        </div>
+    </div>
+
+    <div class="placeholder-content">
+        <h3>Coming Soon</h3>
+        <p>Equipment detail view will be implemented here.</p>
+    </div>
+</div>
+{% endblock %} 

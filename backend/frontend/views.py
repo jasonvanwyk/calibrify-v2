@@ -3,7 +3,7 @@
 # Description: View functions for Calibrify frontend
 # ============================================================================
 
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
 from datetime import timedelta
@@ -135,6 +135,22 @@ def equipment_list(request):
     """
     equipment = Equipment.objects.all().order_by('name')
     return render(request, 'equipment/list.html', {'equipment': equipment})
+
+@login_required
+def equipment_detail(request, pk):
+    """
+    Display detailed information about a specific piece of equipment.
+    """
+    equipment = get_object_or_404(Equipment, pk=pk)
+    return render(request, 'equipment/detail.html', {'equipment': equipment})
+
+@login_required
+def equipment_edit(request, pk):
+    """
+    Edit an existing piece of equipment.
+    """
+    equipment = get_object_or_404(Equipment, pk=pk)
+    return render(request, 'equipment/edit.html', {'equipment': equipment})
 
 @login_required
 def equipment_create(request):

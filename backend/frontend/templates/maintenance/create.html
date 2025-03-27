@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% load static %}
+
+<!-- ============================================================================
+* File Path: frontend/templates/maintenance/create.html
+* Description: Maintenance creation form template
+============================================================================= -->
+
+{% block title %}Log Maintenance - Calibrify{% endblock %}
+
+{% block page_title %}Log New Maintenance{% endblock %}
+
+{% block content %}
+<div class="form-container">
+    <div class="form-header">
+        <h2>Log New Maintenance</h2>
+        <div class="action-buttons">
+            <a href="{% url 'frontend:maintenance_list' %}" class="btn btn-secondary">
+                <i class="ri-arrow-left-line"></i>
+                Back to List
+            </a>
+        </div>
+    </div>
+
+    <div class="placeholder-content">
+        <h3>Coming Soon</h3>
+        <p>Maintenance logging form will be implemented here.</p>
+        <ul class="feature-list">
+            <li>Select equipment for maintenance</li>
+            <li>Set maintenance date</li>
+            <li>Assign maintenance technician</li>
+            <li>Specify service provider (if external)</li>
+            <li>Add maintenance tasks and notes</li>
+            <li>Upload service documentation</li>
+        </ul>
+    </div>
+</div>
+{% endblock %} 
