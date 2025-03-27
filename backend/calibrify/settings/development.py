@@ -13,6 +13,17 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
+# CSRF and CORS settings
+CSRF_TRUSTED_ORIGINS = [
+    'http://localhost:8088',
+    'http://127.0.0.1:8088',
+]
+
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:8088',
+    'http://127.0.0.1:8088',
+]
+
 # Database
 DATABASES = {
     'default': {
