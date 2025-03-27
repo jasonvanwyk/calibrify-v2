@@ -23,6 +23,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('frontend.urls')),  # Frontend URLs (dashboard, etc.)
     path('api/', include('equipment.urls')),  # Equipment API endpoints
+    path('health/', include('calibrify.health.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 # Serve static files in development

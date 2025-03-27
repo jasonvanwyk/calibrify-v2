@@ -40,6 +40,8 @@ services:
       context: ../../frontend
       dockerfile: Dockerfile.dev
     volumes:
+      - ../../frontend/static:/usr/share/nginx/html/static
+      - ../../frontend/media:/usr/share/nginx/html/media
       - static_volume:/usr/share/nginx/html/static
       - media_volume:/usr/share/nginx/html/media
     ports:
