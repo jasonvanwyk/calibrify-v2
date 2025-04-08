@@ -9,21 +9,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Calibrify - Equipment Calibration & Maintenance Tracker{% endblock %}</title>
-    
+
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="{% static 'images/logo.svg' %}">
-    
+
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    
+
     <!-- CSS -->
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
-    
+
     <!-- Icons -->
     <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
-    
+
     {% block extra_css %}{% endblock %}
 </head>
 <body>
@@ -93,6 +93,27 @@
                         <i class="ri-notification-3-line"></i>
                         <span class="notification-badge">0</span>
                     </button>
+                    <div class="dropdown-menu" id="notificationMenu">
+                        <div class="dropdown-header">Notifications</div>
+                        <div class="dropdown-item">
+                            <i class="ri-calendar-check-line"></i>
+                            <div>
+                                <p>Calibration due for Equipment #1234</p>
+                                <span class="activity-time">2 days ago</span>
+                            </div>
+                        </div>
+                        <div class="dropdown-item">
+                            <i class="ri-error-warning-line"></i>
+                            <div>
+                                <p>Maintenance overdue for Equipment #5678</p>
+                                <span class="activity-time">3 days ago</span>
+                            </div>
+                        </div>
+                        <a href="#" class="dropdown-item">
+                            <i class="ri-eye-line"></i>
+                            <span>View all notifications</span>
+                        </a>
+                    </div>
                 </div>
                 <div class="user-menu">
                     {% if request.user.is_authenticated %}
@@ -100,6 +121,20 @@
                             <img src="{% static 'images/default-avatar.svg' %}" alt="User Avatar" class="user-avatar">
                             <span class="user-name">{{ request.user.get_full_name }}</span>
                         </button>
+                        <div class="dropdown-menu" id="userMenu">
+                            <a href="{% url 'admin:index' %}" class="dropdown-item">
+                                <i class="ri-settings-3-line"></i>
+                                <span>Admin Panel</span>
+                            </a>
+                            <a href="{% url 'frontend:profile' %}" class="dropdown-item">
+                                <i class="ri-user-line"></i>
+                                <span>My Profile</span>
+                            </a>
+                            <a href="{% url 'frontend:logout' %}" class="dropdown-item">
+                                <i class="ri-logout-box-line"></i>
+                                <span>Logout</span>
+                            </a>
+                        </div>
                     {% endif %}
                 </div>
             </div>
@@ -133,4 +168,4 @@
         </script>
     {% endif %}
 </body>
-</html> 
+</html>

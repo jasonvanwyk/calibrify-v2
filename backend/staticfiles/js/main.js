@@ -21,7 +21,7 @@ function initializeSidebar() {
         sidebarToggle.addEventListener('click', () => {
             sidebar.classList.toggle('active');
             mainContent.classList.toggle('sidebar-hidden');
-            
+
             // Store sidebar state in localStorage
             localStorage.setItem('sidebarActive', sidebar.classList.contains('active'));
         });
@@ -37,33 +37,66 @@ function initializeSidebar() {
 
 // Dropdown menus (notifications and user menu)
 function initializeDropdowns() {
-    const dropdowns = document.querySelectorAll('[id$="Dropdown"]');
-    
-    dropdowns.forEach(dropdown => {
-        const menu = dropdown.nextElementSibling;
-        if (menu) {
-            dropdown.addEventListener('click', (e) => {
-                e.stopPropagation();
-                menu.classList.toggle('active');
-            });
-        }
-    });
+    // Notification dropdown
+    const notificationDropdown = document.getElementById('notificationDropdown');
+    const notificationMenu = document.getElementById('notificationMenu');
+
+    if (notificationDropdown && notificationMenu) {
+        notificationDropdown.addEventListener('click', (e) => {
+            e.stopPropagation();
+            notificationMenu.classList.toggle('active');
+            // Close user menu if open
+            if (userMenu && userMenu.classList.contains('active')) {
+                userMenu.classList.remove('active');
+            }
+        });
+    }
+
+    // User menu dropdown
+    const userMenuDropdown = document.getElementById('userMenuDropdown');
+    const userMenu = document.getElementById('userMenu');
+
+    if (userMenuDropdown && userMenu) {
+        userMenuDropdown.addEventListener('click', (e) => {
+            e.stopPropagation();
+            userMenu.classList.toggle('active');
+            // Close notification menu if open
+            if (notificationMenu && notificationMenu.classList.contains('active')) {
+                notificationMenu.classList.remove('active');
+            }
+        });
+    }
 
     // Close dropdowns when clicking outside
     document.addEventListener('click', (e) => {
-        dropdowns.forEach(dropdown => {
-            const menu = dropdown.nextElementSibling;
-            if (menu && menu.classList.contains('active') && !dropdown.contains(e.target)) {
-                menu.classList.remove('active');
+        if (notificationMenu && notificationMenu.classList.contains('active') &&
+            !notificationDropdown.contains(e.target) && !notificationMenu.contains(e.target)) {
+            notificationMenu.classList.remove('active');
+        }
+
+        if (userMenu && userMenu.classList.contains('active') &&
+            !userMenuDropdown.contains(e.target) && !userMenu.contains(e.target)) {
+            userMenu.classList.remove('active');
+        }
+    });
+
+    // Close dropdowns when pressing Escape key
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            if (notificationMenu && notificationMenu.classList.contains('active')) {
+                notificationMenu.classList.remove('active');
             }
-        });
+            if (userMenu && userMenu.classList.contains('active')) {
+                userMenu.classList.remove('active');
+            }
+        }
     });
 }
 
 // Alert messages
 function initializeAlerts() {
     const alerts = document.querySelectorAll('.alert');
-    
+
     alerts.forEach(alert => {
         const closeBtn = alert.querySelector('.alert-close');
         if (closeBtn) {
@@ -90,11 +123,11 @@ function initializeAlerts() {
 // Form validation
 function initializeFormValidation() {
     const forms = document.querySelectorAll('form[data-validate]');
-    
+
     forms.forEach(form => {
         form.addEventListener('submit', (e) => {
             let isValid = true;
-            
+
             // Required fields
             const requiredFields = form.querySelectorAll('[required]');
             requiredFields.forEach(field => {
@@ -159,4 +192,4 @@ document.addEventListener('DOMContentLoaded', function() {
             'Content-Type': 'application/json'
         });
     }
-}); 
+});
