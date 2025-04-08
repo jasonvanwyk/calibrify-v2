@@ -11,17 +11,17 @@ SECRET_KEY = 'django-insecure-development-key-change-in-production'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'web', 'nginx']
 
 # CSRF and CORS settings
 CSRF_TRUSTED_ORIGINS = [
-    'http://localhost:8088',
-    'http://127.0.0.1:8088',
+    'http://localhost:80',
+    'http://127.0.0.1:80',
 ]
 
 CORS_ALLOWED_ORIGINS = [
-    'http://localhost:8088',
-    'http://127.0.0.1:8088',
+    'http://localhost:80',
+    'http://127.0.0.1:80',
 ]
 
 # Database
@@ -42,4 +42,4 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 # Disable HTTPS requirements in development
 SESSION_COOKIE_SECURE = False
 CSRF_COOKIE_SECURE = False
-SECURE_SSL_REDIRECT = False 
+SECURE_SSL_REDIRECT = False
